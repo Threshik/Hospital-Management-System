@@ -1,0 +1,52 @@
+
+USE HospitalDB;
+CREATE TABLE Patient (
+    patientId INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    dateOfBirth DATE NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') NOT NULL,
+    contactNumber VARCHAR(15) UNIQUE NOT NULL,
+    address TEXT
+);
+CREATE TABLE Doctor (
+    doctorId INT PRIMARY KEY AUTO_INCREMENT,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    specialization VARCHAR(100) NOT NULL,
+    contactNumber VARCHAR(15) UNIQUE NOT NULL
+);
+CREATE TABLE Appointment (
+    appointmentId INT PRIMARY KEY AUTO_INCREMENT,
+    patientId INT NOT NULL,
+    doctorId INT NOT NULL,
+    appointmentDate DATETIME NOT NULL,
+    description TEXT,
+    FOREIGN KEY (patientId) REFERENCES Patient(patientId) ON DELETE CASCADE,
+    FOREIGN KEY (doctorId) REFERENCES Doctor(doctorId) ON DELETE CASCADE
+);
+
+show tables;
+INSERT INTO Patient (firstName, lastName, dateOfBirth, gender, contactNumber, address) 
+VALUES 
+('John', 'Doe', '1995-06-15', 'Male', '9876543210', '123 Main Street'),
+('Alice', 'Smith', '1992-03-22', 'Female', '8765432109', '456 Elm Street'),
+('Robert', 'Johnson', '1988-09-10', 'Male', '7654321098', '789 Oak Street');
+
+INSERT INTO Doctor (firstName, lastName, specialization, contactNumber) 
+VALUES 
+('Dr. Emily', 'Brown', 'Cardiology', '9123456789'),
+('Dr. James', 'Wilson', 'Neurology', '9234567891'),
+('Dr. Sarah', 'Miller', 'Orthopedics', '9345678912');
+
+INSERT INTO Appointment (patientId, doctorId, appointmentDate, description) 
+VALUES 
+(1, 1, '2024-10-05 10:00:00', 'Regular heart check-up'),
+(2, 2, '2024-10-06 14:30:00', 'Migraine treatment'),
+(3, 3, '2024-10-07 09:15:00', 'Knee pain consultation');
+
+select * from Appointment;
+
+
+
+
